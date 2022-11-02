@@ -1,66 +1,83 @@
-const { Router } = require("express");
-const Contenedor = require("../src/js/Contenedor.js");
-const {middlewareIsAdmin} = require("../src/js/middlewares.js");
-const {PORT} = require("../src/js/config.js");
+import { Router } from "express";
+// Usando Mongo
+import { ProductsMongoDAO } from "../persistencia/daos/productsMongoDAO.js";
+import { modelProducts } from "../persistencia/models/productsMongo.js";
+// Usando Firebase
+// import { ProductsFirebaseDAO } from "../persistencia/daos/productsFirebaseDAO.js";
+// import { modelProducts } from "../persistencia/models/productsFirebase.js";
+// Usando Knex
+// import { ProductsKnexDAO } from "../persistencia/daos/productsKnexDAO.js";
+
+import { middlewareIsAdmin } from "../src/js/middlewares.js";
 const router = Router();
-const fileProducts = new Contenedor("../files/products.txt");
 
-router.get("/", (req, res) => {  
-  fileProducts
-    .getAll()
-    .then((resp) => {
-      res.json(resp);
-    })
-    .catch((error) => console.log(error));
-});
+const modelProduct = new ProductsMongoDAO(modelProducts); //Mongo
+// const modelProduct = new ProductsFirebaseDAO(modelProducts); //Firebase
+// const modelProduct = new ProductsKnexDAO(); //Knex
 
-router.get("/:id", (req, res) => {
-  let { id } = req.params;
-  fileProducts.getById(id).then((resp) => {
-    if (resp) {
-      res.json(resp);
-    } else {
-      res.status(404).json({ error: "Product Does Not Exist" });
-    }
-  });
-});
 
-router.post("/", middlewareIsAdmin, (req, res) => {
-  const { body } = req;
-  fileProducts.save(body).then((id) => {
-    res.json({ id });
-  });
-});
-
-router.put("/:id",middlewareIsAdmin ,async (req, res) => {
-  const { id } = req.params;
-  const newData = req.body;
-  const listProducts = await fileProducts.getAll();
-  let product = listProducts.find((el) => el.id == id),
-    indexProduct = listProducts.findIndex((el) => el.id == id);
-  if (product) {
-    let idProduct = product.id;
-    product = { ...product, ...newData, id: idProduct };
-    listProducts.splice(indexProduct, 1, product);
-    fileProducts.overwriteFile(listProducts);
-    res.json(product);
-  } else {
-    res.status(404).json({
-      error: -1,
-      description: `Ruta `
-    });
+router.get("/", async (req, res) => {
+  try {
+    const allProducts = await modelProduct.getAll();
+    res.json({products:allProducts});
+  } catch (error) {
+    console.log(error);
   }
 });
 
-router.delete("/:id", middlewareIsAdmin ,(req, res) => {
-  const { id } = req.params;
-  fileProducts.deleteById(id).then((resp) => {
-    if (resp) {
-      res.json({ text: "Product Delete" });
+router.get("/:id", async (req, res) => {
+  let { id } = req.params;
+  try {
+    const product = await modelProduct.getById(id);
+    if (product) {
+      res.json(product);
     } else {
       res.status(404).json({ error: "Product Does Not Exist" });
     }
-  });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-module.exports = router;
+router.post("/", middlewareIsAdmin, async (req, res) => {
+  const obj = req.body;
+  const date = new Date();
+  obj.timestamp = date.toLocaleString();
+  try {
+    const productoSave = await modelProduct.createDocument(obj);
+    res.json({ id: productoSave._id || productoSave });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/:id", middlewareIsAdmin, async (req, res) => {
+  const { id } = req.params;
+  const newData = req.body;
+  try {
+    const productUpdated = await modelProduct.updateDocument(id, newData);
+    if (productUpdated) {
+      res.json({ product: productUpdated });
+    } else {
+      res.status(404).json({ error: "Product Does Not Exist" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.delete("/:id", middlewareIsAdmin, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const productDeleted = await modelProduct.deleteDocument(id);
+    if (productDeleted) {
+      res.json({ text: "Product Delete" , product:productDeleted});
+    } else {
+      res.status(404).json({ error: "Product Does Not Exist" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export default router;

@@ -1,39 +1,70 @@
-const { Router, json } = require("express");
-const Contenedor = require("../src/js/Contenedor.js");
-const { PORT } = require("../src/js/config.js");
+import { Router } from "express";
+// Usando MongoDB
+import { CartsMongoDAO } from "../persistencia/daos/cartsMongoDAO.js";
+import { modelCarts } from "../persistencia/models/cartsMongo.js";
+// Usando Firebase
+// import { CartsFirebaseDAO } from "../persistencia/daos/cartsFirebaseDAO.js";
+// import { modelCarts } from "../persistencia/models/cartsFirebase.js";
+// Usando Knex
+// import { CartsKnexDAO } from "../persistencia/daos/cartsKnexDAO.js";
+
 const router = Router();
-const fileCart = new Contenedor("../files/carts.txt");
 
-router.get("/", (req, res) => {
-  fileCart.getAll().then((resp) => res.json(resp));
+const modelCart = new CartsMongoDAO(modelCarts); //Mongo
+// const modelCart = new CartsFirebaseDAO(modelCarts); //Firabase
+// const modelCart = new CartsKnexDAO(); //Knex
+
+
+router.get("/", async (req, res) => {
+  try {
+    const allCarts = await modelCart.getAll();
+    res.json({ carts: allCarts });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const date = new Date();
-  let dateCreation = date.toLocaleDateString(),
-    timeCreation = date.toLocaleTimeString();
-  fileCart.save({ dateCreation, timeCreation, products: [] }).then((id) => {
-    res.json({ id });
-  });
+  // Para Mongo /Firebase
+  // let cart = {
+  //   timestamp: date.toLocaleString(),
+  //   products: [],
+  // };
+
+  // Knex
+  let cart = {
+    timestamp: date.toLocaleString(),
+  } 
+
+  try {
+    const cartSave = await modelCart.createDocument(cart);
+    res.json({ id: cartSave._id || cartSave });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  fileCart.deleteById(id).then((resp) => {
-    if (resp) {
+  try {
+    const cartDeleted = await modelCart.deleteDocument(id);
+    if (cartDeleted) {
       res.json({ text: "Cart Delete" });
     } else {
       res.status(404).json({ error: "Cart Does Not Exist" });
     }
-  });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.get("/:id/products", async (req, res) => {
   try {
     const { id } = req.params;
-    let cart = await fileCart.getById(id);
-    if (cart) {
-      res.json(cart.products);
+    const products = await modelCart.getProducts(id);
+    if (products) {
+      res.json({ products });
     } else {
       res.status(404).json({ error: "Cart Does Not Exist" });
     }
@@ -45,16 +76,10 @@ router.get("/:id/products", async (req, res) => {
 router.post("/:id/products", async (req, res) => {
   try {
     const { id } = req.params;
-
     let { body } = req;
-    let cartAll = await fileCart.getAll();
-    let cart = cartAll.find((el) => el.id == id);
-    if (cart) {
-      let indexCart = cartAll.findIndex((el) => el.id == id);
-      cart.products.push(body);
-      cartAll.splice(indexCart, 1, cart);
-      await fileCart.overwriteFile(cartAll);
-      res.json(cartAll);
+    const productInserted = await modelCart.saveProduct(id, body);
+    if (productInserted) {
+      res.json({ text: "Product Inserted", product: productInserted });
     } else {
       res.status(404).json({ error: "Cart Does Not Exist" });
     }
@@ -66,15 +91,9 @@ router.post("/:id/products", async (req, res) => {
 router.delete("/:id/products/:idProd", async (req, res) => {
   const { id, idProd } = req.params;
   try {
-    let cartAll = await fileCart.getAll();
-    let cart = cartAll.find((el) => el.id == id);
-    if (cart) {
-      let listProducts = cart.products,
-        indexProdDelete = listProducts.findIndex((el) => el.id == idProd);
-        
-      listProducts.splice(indexProdDelete, 1);
-      await fileCart.overwriteFile(cartAll);
-      res.json(cartAll);
+    const productDelete = await modelCart.deleteProduct(id,idProd);
+    if (productDelete) {
+      res.json({product:productDelete});
     } else {
       res.status(404).json({ error: "Cart Does Not Exist" });
     }
@@ -83,15 +102,18 @@ router.delete("/:id/products/:idProd", async (req, res) => {
   }
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", async(req, res) => {
   let { id } = req.params;
-  fileCart.getById(id).then((resp) => {
-    if (resp) {
-      res.json(resp);
-    } else {
-      res.status(404).json({ error: "Cart Does Not Exist" });
-    }
-  });
+  try {
+    const cart = await modelCart.getById(id);
+   if (cart) {
+     res.json({cart});
+   } else {
+     res.status(404).json({ error: "Cart Does Not Exist" });
+   }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-module.exports = router;
+export default router;
