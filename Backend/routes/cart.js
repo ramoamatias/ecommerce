@@ -1,18 +1,12 @@
 import { Router } from "express";
-// Usando MongoDB
 import { CartsMongoDAO } from "../persistencia/daos/cartsMongoDAO.js";
 import { modelCarts } from "../persistencia/models/cartsMongo.js";
-// Usando Firebase
-// import { CartsFirebaseDAO } from "../persistencia/daos/cartsFirebaseDAO.js";
-// import { modelCarts } from "../persistencia/models/cartsFirebase.js";
-// Usando Knex
-// import { CartsKnexDAO } from "../persistencia/daos/cartsKnexDAO.js";
+
 
 const router = Router();
 
-const modelCart = new CartsMongoDAO(modelCarts); //Mongo
-// const modelCart = new CartsFirebaseDAO(modelCarts); //Firabase
-// const modelCart = new CartsKnexDAO(); //Knex
+const modelCart = new CartsMongoDAO(modelCarts); 
+
 
 
 router.get("/", async (req, res) => {
@@ -26,16 +20,12 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const date = new Date();
-  // Para Mongo /Firebase
-  // let cart = {
-  //   timestamp: date.toLocaleString(),
-  //   products: [],
-  // };
 
-  // Knex
   let cart = {
     timestamp: date.toLocaleString(),
-  } 
+    products: [],
+  };
+
 
   try {
     const cartSave = await modelCart.createDocument(cart);

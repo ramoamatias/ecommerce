@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+
+<body>
+    <h1>Register</h1>
+    <h3>Welcome to register</h3>
+
+    <div>
+        <h2>Register </h2>
+        <form action="/api/user/register" method="post" class="formRegister">
+            <label>
+                Email:
+                <input type="email" name="email" id="email" required="true">
+            </label>
+
+            <label>
+                First Name:
+                <input type="text" name="firstName" id="firstName" required="true">
+            </label>
+
+            <label>
+                Last Name:
+                <input type="text" name="lastName" id="lastName" required="true">
+            </label>
+
+            <label>
+                Age:
+                <input type="number" name="age" id="age" required="true">
+            </label>
+
+            <label>
+                Adress:
+                <input type="text" name="adress" id="adress" required="true">
+            </label>
+
+            <label>
+                Avatar:
+                <input type="text" name="avatar" id="avatar" required="true">
+            </label>
+
+            <label>
+                Phone:
+                <input type="text" name="phone" id="phone" required="true">
+            </label>
+
+
+            <label>
+                Password:
+                <input type="password" name="password" id="password" required="true">
+            </label>
+
+            <input type="submit" value="Register">
+        </form>
+        <button onclick="location.href='/api/user/login'"> login </button>
+    </div>
+
+
+</body>
+
+</html>

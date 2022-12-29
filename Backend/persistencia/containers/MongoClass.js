@@ -28,6 +28,14 @@ export class MongoClass {
         }
     }
 
+    async getOne (filter) {
+        try {
+            return this.collection.findOne(filter);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async createDocument(obj) {
         try {
             return await new this.collection(obj).save();

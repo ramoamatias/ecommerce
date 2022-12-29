@@ -1,20 +1,9 @@
 import { Router } from "express";
-// Usando Mongo
 import { ProductsMongoDAO } from "../persistencia/daos/productsMongoDAO.js";
-import { modelProducts } from "../persistencia/models/productsMongo.js";
-// Usando Firebase
-// import { ProductsFirebaseDAO } from "../persistencia/daos/productsFirebaseDAO.js";
-// import { modelProducts } from "../persistencia/models/productsFirebase.js";
-// Usando Knex
-// import { ProductsKnexDAO } from "../persistencia/daos/productsKnexDAO.js";
-
 import { middlewareIsAdmin } from "../src/js/middlewares.js";
 const router = Router();
 
-const modelProduct = new ProductsMongoDAO(modelProducts); //Mongo
-// const modelProduct = new ProductsFirebaseDAO(modelProducts); //Firebase
-// const modelProduct = new ProductsKnexDAO(); //Knex
-
+const modelProduct = new ProductsMongoDAO(); 
 
 router.get("/", async (req, res) => {
   try {

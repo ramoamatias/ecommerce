@@ -1,23 +1,62 @@
 import express, { json, urlencoded } from "express";
-import { PORT } from "../src/js/config.js";
+import cors from "cors";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+
+import passport from "passport";
+import "../passport/localPassport.js";
+
+import { PORT } from "../src/js/config.js"; //CAMBIAR POR DOTENV
 import productsRouter from "../routes/products.js";
 import cartRouter from "../routes/cart.js";
+import { router as userRouter, isAuth } from "../routes/users.js";
 import { connectMongoDB } from "../persistencia/dbConfigMongo.js";
+import { ProductsMongoDAO } from "../persistencia/daos/productsMongoDAO.js";
 
+const modelProduct = new ProductsMongoDAO(); 
 const app = express();
 
+app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use("/api/products", productsRouter); 
+
+app.use(
+  session({
+    secret: process.env.SECRET || "ClaveSecreta123",
+    resave: true,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://matiasramoa:coderhouse@coderhouse.ocw4cfm.mongodb.net/ecommerceProductivo",
+    }),
+    cookie: { maxAge: 60000 * 10 },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter);
-   
+app.use("/api/user", userRouter);
+
+
+
+app.set("views", "./views");
+app.set("view engine", "ejs");
+
+
+
+
 app.use(function (err, req, res, next) {
-  console.error(err.stack);   
+  console.error(err.stack);
   res.status(500).send("Something broke!");
 });
 
-app.get("/", (req, res) => {
-  res.json({ respuesta: "paginaPrincipal" });
+app.get("/",isAuth, async (req, res) => {
+  // res.json({ respuesta: "paginaPrincipal" });
+  const products = await modelProduct.getAll();
+  res.render("homeUsers.ejs",{products});
 });
 
 app.get("/*", (req, res) => {
@@ -26,10 +65,8 @@ app.get("/*", (req, res) => {
 });
 
 try {
-  // Para usar Fireabse debo de comentar connectMongoDB()
   connectMongoDB();
   console.log("Conectado a Mongo");
-
   app.listen(PORT, () => {
     console.log(`Escuchando el puerto ${PORT}`);
     console.log(`http://localhost:${PORT}`);
