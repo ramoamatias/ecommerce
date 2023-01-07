@@ -1,11 +1,14 @@
 import { Schema, model } from "mongoose";
 
-const nameCollection = "carts";
+const nameCollection = "cartsUserHist";
 
-const cartsSchema = Schema({
+const cartsUserHistSchema = Schema({
+  idCart: { type: String, required: true },
+  email: { type: String, required: true },
   timestamp: { type: String, required: true },
   products: [
     {
+      _id: { type: String, required: true },
       code: { type: String, required: true },
       name: { type: String, required: true },  
       price: {
@@ -23,4 +26,4 @@ const cartsSchema = Schema({
   ],
 });
 
-export const modelCarts = model(nameCollection, cartsSchema);
+export const modelCartsUserHist = model(nameCollection, cartsUserHistSchema);

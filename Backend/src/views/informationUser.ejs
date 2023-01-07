@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information From User</title>
+</head>
+
+<body>
+    <h1>Information From User</h1>
+    <div>
+        <p><%=firstName%> <%=lastName%></p>
+        <p>Age <%=age %></p>
+        <p>Phone <%=phone %></p>
+        <p>Email <%=email %></p>
+        <p>adress <%=adress %></p>
+
+        <img src=<%= avatar %> alt="imagen">
+        
+        <!-- <img src="require(`${avatar}`)" alt=""> -->
+        
+    </div>
+
+    <button onclick="location.href='/'">Home</button>
+
+</body>
+
+</html>

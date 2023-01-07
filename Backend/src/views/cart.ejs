@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+
+<body>
+    <h2>Cart</h2>
+    <div>
+        <%if (products.length > 0 ) {%>
+            <%products.forEach(el=>{%>
+                <h2 class="nameProduct"><%=el.name%></h2>
+                <img class="imgProduct" src="<%=el.urlPhoto%>" alt="<%=el.name%>">
+                <p class="codeProduct"><%=el.code%></p>
+                <p>Price: $<span class="priceProduct"><%=el.price%></span></p>
+                <p>Cantidad: <span class="quantityProduct"><%=el.quantity%></span></p>
+                <button class="deletedCart">Deleted</button>
+            <%})%>
+            <button onclick="location.href='/api/user/finalizePurchase'"> Finalizar compra</button>
+        <%} else {%>
+            <div> Carrito Vacio</div>
+        <%}%>    
+        <button onclick="location.href='/'"> Volver a Home</button>
+    </div>
+                
+    <script src="../../index.js"></script>
+                
+</body>
+</html>

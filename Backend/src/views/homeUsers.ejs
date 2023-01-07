@@ -10,24 +10,29 @@
 
 <body>
     <h1>Home</h1>
-    <h3>Welcome <%user%></h3>
+    <h3>Welcome <%=user%></h3>
 
     <div>
         <%products.forEach(el=>{%>
-        <div>
-            <h2><%=el.name%></h2>
-            <img src=<%=el.photo%> alt=<%=el.name%>>
-            <p><%=el.description%></p>
-            <p>Price: <span>$<%=el.price%></span></p>
-        </div>
+            <div class="addCart">
+                <h2 class="nameProduct"><%=el.name%></h2>
+                <img class="imgProduct" src=<%=el.photo%> alt=<%=el.name%>>
+                <p class="descriptionProduct"><%=el.description%></p>
+                <p class="codeProduct"><%=el.code%></p>
+                <p>Price: $<span class="priceProduct"><%=el.price%></span></p>
+                <p>Stock: <span class="stockProduct"><%=el.stock%></span></p>
+                <button class="addCart">Add Cart</button>
+            </div>
         <%})%>
     </div>
 
     <button onclick="location.href='/api/user/logout'">Logout</button>
-    <button onclick="location.href='/api/user/logout'">Logout</button>
+    <button id="bottonCart"> Carrito </button>
     <button onclick="location.href='/api/user/information'">information</button>
+    <button onclick="location.href='/api/user/allCartsHist'">Historical carts</button>
 
-
+    <script src="index.js"></script>
+    
 
 </body>
 

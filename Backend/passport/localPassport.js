@@ -14,7 +14,6 @@ passport.use(
     },
     async (req, email, password, done) => {
       const userDB = await modelUser.getByProps({ email });
-      console.log("usuario recuperado en register",userDB);
       if (userDB.length > 0) {
         return done(null, false);
       } else {
@@ -23,7 +22,6 @@ passport.use(
           user[key] = req.body[key];
         }
         const userCreated = await modelUser.createDocument(user);
-        console.log(userCreated);
         done(null, userCreated);
       }
     }
@@ -41,13 +39,12 @@ passport.use(
     async (req, email, password, done) => {
       const userDB = await modelUser.getOne({ email, password });
       if (!userDB) {
-        done(null, false);
+        return done(null, false);
       }
       done(null, userDB);
     }
   )
 );
-
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

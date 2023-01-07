@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { ProductsMongoDAO } from "../persistencia/daos/productsMongoDAO.js";
+import { logger } from "../src/js/logger.js";
 import { middlewareIsAdmin } from "../src/js/middlewares.js";
 const router = Router();
 
-const modelProduct = new ProductsMongoDAO(); 
+const modelProduct = new ProductsMongoDAO();
 
 router.get("/", async (req, res) => {
   try {
     const allProducts = await modelProduct.getAll();
-    res.json({products:allProducts});
+    res.json({ products: allProducts });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 });
 
@@ -24,7 +25,7 @@ router.get("/:id", async (req, res) => {
       res.status(404).json({ error: "Product Does Not Exist" });
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 });
 
@@ -36,7 +37,7 @@ router.post("/", middlewareIsAdmin, async (req, res) => {
     const productoSave = await modelProduct.createDocument(obj);
     res.json({ id: productoSave._id || productoSave });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 });
 
@@ -51,7 +52,7 @@ router.put("/:id", middlewareIsAdmin, async (req, res) => {
       res.status(404).json({ error: "Product Does Not Exist" });
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 });
 
@@ -60,13 +61,15 @@ router.delete("/:id", middlewareIsAdmin, async (req, res) => {
   try {
     const productDeleted = await modelProduct.deleteDocument(id);
     if (productDeleted) {
-      res.json({ text: "Product Delete" , product:productDeleted});
+      res.json({ text: "Product Delete", product: productDeleted });
     } else {
       res.status(404).json({ error: "Product Does Not Exist" });
     }
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 });
 
 export default router;
+
+
