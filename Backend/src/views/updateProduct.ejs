@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%-include("./partials/linkcss.ejs")%>
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div class="text-center mt-2">
+    <button class="btn btn-primary text-center" onclick="location.href = '/'"> Return Home</button>
+    <div class="responseContainer m-2"></div>
+
+  </div>
+
+
+
+  <div class="m-5 p-1 border rounded ">
+    <h2>Updated product </h2>
+    <form action="" class="d-flex flex-column align-items-center">
+      <div class="form-floating mb-3 w-50">
+        <label for="idProductUpdate">Code Product:</label>
+        <input type="text" class="form-control" id="idProductUpdate" name="idProductUpdate" required>
+      </div>
+      <input id="searchProductUpdate" class="btn btn-success" type="submit" value="Search">
+    </form>
+    <div class="messageError m-3" hidden></div>
+    <div class="messageUpdateProduct m-3" hidden></div>
+
+  </div>
+
+
+
+
+  <form action="" method="post">
+    <div hidden id="containerProductUpdated" class="cardContainer">
+      <div class="d-flex flex-column  align-items-center align-content-around border w-75 p-4">
+        <div class="form-floating mb-3 w-50">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-floating mb-3 w-50">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" name="description" required>
+        </div>
+        <div class="form-floating mb-3 w-50">
+          <label for="code">Code</label>
+          <input type="text" class="form-control" id="code" name="code" required>
+        </div>
+        <div class="form-floating mb-3 w-50">
+          <label for="photo">Url Photo</label>
+          <input type="text" class="form-control" id="photo" name="photo" required>
+        </div>
+        <div class="form-floating mb-3 w-50">
+          <label for="price">Price</label>
+          <input type="text" class="form-control" id="price" name="price" required>
+        </div>
+        <div class="form-floating mb-3 w-50">
+          <label for="stock">Stock</label>
+          <input type="text" class="form-control" id="stock" name="stock" required>
+        </div>
+        <div class="mt-3">
+          <input type="hidden" id="isAdmin" name="isAdmin" value="true">
+          <div class="d-flex">
+            <button class="btnUpdateAcept btn btn-success m-1"> Update</button>
+            <button class="btnCancelUpdate btn btn-danger m-1"> Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+  <script src="../../index.js"></script>
+  <%-include("./partials/linkjs.ejs")%>
+</body>
+
+</html>

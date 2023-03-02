@@ -1,4 +1,3 @@
-import { logger } from "../../src/js/logger.js";
 import { MongoClass } from "../containers/MongoClass.js";
 import { modelCarts } from "../models/cartsMongo.js";
 
@@ -31,7 +30,7 @@ export class CartsMongoDAO extends MongoClass {
         return undefined;
       }
     } catch (error) {
-      logger.error(error);
+      console.log(error);
     }
   }
 
@@ -52,7 +51,7 @@ export class CartsMongoDAO extends MongoClass {
       }
       return undefined;
     } catch (error) {
-      logger.error(error);
+      console.log(error);
     }
   }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%-include("./partials/linkcss.ejs")%>
+    <title>Finalize Purchase</title>
+</head>
+
+<body>
+    <%-include("./partials/nav.ejs",{section:"Orders"})%>
+    <div class="alert alert-success" role="alert">
+        <h2>Purchase Completed</h2>
+        <p>Your request was registered successfully</p>
+    </div>
+    <div class="cardContainer">
+        <div class="card d-flex flex-column align-items-center w-50">
+            <h3>Information</h3>
+            <p class="bg-light"><b>Order id: </b> <%=cart.idCart%></p>
+            <p class="bg-light"><b>Timestamp:</b> <%=cart.timestamp%> </p>
+            <p class="bg-light"><b>Total: </b> $<%=total%></p>
+            <button class="btn btn-primary" onclick="location.href='/'"> Home </button>
+        </div>
+
+
+    </div>
+    <script src="../../index.js"></script>
+    <%-include("./partials/linkjs.ejs")%>
+</body>
+
+</html>

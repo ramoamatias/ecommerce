@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%-include("./partials/linkcss.ejs")%>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="text-center mt-2">
+        <button class="btn btn-primary text-center" onclick="location.href = '/'"> Return Home</button>
+        <div class="responseContainer m-2"></div>
+
+    </div>
+
+
+
+    <div class="m-5 p-1 border rounded ">
+        <h2>Delete product </h2>
+        <form action="" class="d-flex flex-column align-items-center">
+            <div class="form-floating mb-3 w-50">
+                <label for="idProductDelete">Code Product:</label>
+                <input type="text" class="form-control" id="idProductDelete" name="idProductDelete" required>
+            </div>
+            <input id="searchProductDelete" class="btn btn-success" type="submit" value="Search">
+        </form>
+        <div class="messageError m-3" hidden></div>
+        <div class="messageDeleteProduct m-3" hidden></div>
+
+    </div>
+    <div hidden id="containerProductDeleted" class="cardContainer">
+        <div class="card">
+            <p>Product Deleted</p>
+            <p>Id: <span class="idProduct"></span></p>
+            <img src="" alt="" class="imgProduct">
+            <p>Name: <span class="nameProduct"></span></p>
+            <p class="text-center">Description : <span class="descriptionProduct"></span></p>
+            <p>Code: <span class="codeProduct"></span></p>
+            <p>Price: <span class="priceProduct"></span></p>
+            <div class="d-flex">
+                <button class="btnDeleteAcept btn btn-success m-1"> Delete</button>
+                <button class="btnCancelDelete btn btn-danger m-1"> Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script src="../../index.js"></script>
+    <%-include("./partials/linkjs.ejs")%>
+</body>
+
+</html>

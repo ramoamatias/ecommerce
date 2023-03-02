@@ -5,27 +5,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%-include("./partials/linkcss.ejs")%>
     <title>Historial Cart</title>
 </head>
 
 <body>
-    <h1>Historical Carts</h1>
-
-    <div>
+    <%-include("./partials/nav.ejs",{section:"Historical Carts"})%>
+    
+    <div class="containerHistCarts">
+        <button class="btn btn-primary" onclick="location.href='/'"> Volver a Home</button>
         <%if (carts.length > 0 ) {%>
+        <ul class="list-group">
             <%carts.forEach(el=>{%>
-                <h2 id="idCart"><%=el.idCart%></h2>
-                <p><b>Fecha Compra:</b> <%=el.timestamp%></p>
-                <!-- <button onclick="location.href='/api/user/'"> Ir a Cart</button> -->
+            <li class="list-group-item disabled">
+                <div>
+                    <h2 id="idCart"><%=el.idCart%></h2>
+                    <p><b>Fecha Compra:</b> <%=el.timestamp%></p>
+                </div>
+            </li>
             <%})%>
+        </ul>
         <%} else {%>
-            <div> Carrito Vacio</div>
+        <div> Carrito Vacio</div>
         <%}%>    
-        <button onclick="location.href='/'"> Volver a Home</button>
     </div>
 
     <script src="../../index.js"></script>
-    
+    <%-include("./partials/linkjs.ejs")%>
 
 </body>
 

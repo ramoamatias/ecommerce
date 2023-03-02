@@ -5,29 +5,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%-include("./partials/linkcss.ejs")%>
     <title>Cart</title>
 </head>
 
 <body>
-    <h2>Cart</h2>
+    <%-include("./partials/nav.ejs",{section:"Cart"})%>
     <div>
+
         <%if (products.length > 0 ) {%>
+        <div class="m-3 text-center">
+            <button class="btn btn-success" onclick="location.href='/api/user/finalizePurchase'"> Finalizar
+                compra</button>
+            <button class="btn btn-primary" onclick="location.href='/'"> Volver a Home</button>
+        </div>
+        <div class="cardContainer">
             <%products.forEach(el=>{%>
-                <h2 class="nameProduct"><%=el.name%></h2>
+            <div class="card">
                 <img class="imgProduct" src="<%=el.urlPhoto%>" alt="<%=el.name%>">
-                <p class="codeProduct"><%=el.code%></p>
-                <p>Price: $<span class="priceProduct"><%=el.price%></span></p>
-                <p>Cantidad: <span class="quantityProduct"><%=el.quantity%></span></p>
-                <button class="deletedCart">Deleted</button>
+                <div class="card-body">
+                    <h4 class="nameProduct"><%=el.name%></h4>
+                    <p class="descriptionProduct"><span><%=el.description%></span></p>
+                    <p class="codeProduct"><%=el.code%></p>
+                    <p>Price: $<span class="priceProduct"><%=el.price%></span></p>
+                    <p>Cantidad: <span class="quantityProduct"><%=el.quantity%></span></p>
+                    <p>SubTotal: <span class="subtotalProduct"><%=el.quantity * el.price%></span></p>
+
+                    <button id="addCart" class="btn btn-primary deletedCart">Deleted</button>
+                </div>
+            </div>
             <%})%>
-            <button onclick="location.href='/api/user/finalizePurchase'"> Finalizar compra</button>
+        </div>
         <%} else {%>
-            <div> Carrito Vacio</div>
+            <div class="m-3 text-center">
+                <button class="btn btn-primary" onclick="location.href='/'"> Volver a Home</button>
+            </div>
+            <div class="alert alert-danger text-center" role="alert" >
+                Cart Empty!
+              </div>
         <%}%>    
-        <button onclick="location.href='/'"> Volver a Home</button>
     </div>
                 
     <script src="../../index.js"></script>
-                
+    <%-include("./partials/linkjs.ejs")%>
 </body>
+
 </html>

@@ -20,4 +20,10 @@ log4js.configure({
   },
 });
 
-export const logger = log4js.getLogger()
+export class ServerServices {
+    constructor() {
+        this.logger = log4js.getLogger();
+    }
+
+
+}

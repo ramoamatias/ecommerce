@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%-include("./partials/linkcss.ejs")%>
+
+    
+    <title>Document</title>
+</head>
+<body class="d-flex flex-column align-items-center justify-content-around m-5 border pb-4">
+    <h1 class="p-2 mb-3">Admin View</h1>
+    <button class="btn btn-outline-primary w-75 m-1 font-weight-bold" onclick="location.href = '/api/products/registerProduct'"> Register product </button>
+    <button class="btn btn-outline-primary w-75 m-1 font-weight-bold" onclick="location.href = '/api/products/delete'"> Delete product</button>
+    <button class="btn btn-outline-primary w-75 m-1 font-weight-bold" onclick="location.href = '/api/products/update'"> Update product</button>
+    <button class="btn btn-outline-primary w-75 m-1 font-weight-bold" onclick="location.href = '/api/user/logout'"> Logout</button>
+    <script src="../../index.js"></script>
+    <%-include("./partials/linkjs.ejs")%>
+</body>
+</html>

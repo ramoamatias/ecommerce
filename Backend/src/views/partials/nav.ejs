@@ -1,0 +1,16 @@
+<header class="header">
+    <h1><%=section%></h1>
+    <nav class="nav">
+        <button class="bottonCart"> <img  id="bottonCart" src="../../img/cart.svg" alt="" class="cart"> </button>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"></a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/api/user/information">Information</a>
+                <a class="dropdown-item" href="/api/user/allCartsHist">Historical Carts</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/api/user/logout">Logout</a>
+            </div>
+        </li>
+        <img src=<%=avatar%> alt="" class="photoUser">
+    </nav>
+</header>

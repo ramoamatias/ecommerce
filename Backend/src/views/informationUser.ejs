@@ -5,26 +5,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%-include("./partials/linkcss.ejs")%>
     <title>Information From User</title>
 </head>
 
 <body>
-    <h1>Information From User</h1>
-    <div>
-        <p><%=firstName%> <%=lastName%></p>
-        <p>Age <%=age %></p>
-        <p>Phone <%=phone %></p>
-        <p>Email <%=email %></p>
-        <p>adress <%=adress %></p>
-
+    <%-include("./partials/nav.ejs",{section:"Information From User"})%>
+    
+    <div class="infoContainer">
         <img src=<%= avatar %> alt="imagen">
+        <p class=" d-block bg-light"><%=firstName%> <%=lastName%></p>
+        <p class="bg-light"><b>Age:</b>  <%=age %></p>
+        <p class="bg-light"><b>Phone:</b> <%=phone %></p>
+        <p class="bg-light"><b>Email:</b> <%=email %></p>
+        <p class="bg-light"><b>Adress:</b> <%=adress %></p>
         
-        <!-- <img src="require(`${avatar}`)" alt=""> -->
         
+        <button class="btn btn-primary" onclick="location.href='/'">Home</button>
     </div>
-
-    <button onclick="location.href='/'">Home</button>
-
+    
+    
+    
+    <%-include("./partials/linkjs.ejs")%>
+    
 </body>
 
 </html>
