@@ -59,7 +59,7 @@ app.use("/api/products", productsRouter.init());
 app.use("/api/cart", cartRouter.init());
 app.use("/api/user", userRouter.init());
 
-app.set("views", "./views");
+app.set("views", "./src/views");
 app.set("view engine", "ejs");
 
 app.use(function (err, req, res, next) {
